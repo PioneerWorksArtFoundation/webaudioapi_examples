@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Drum Pad Reverb</title>
+  <style type="text/css">
+    body, a {
+        margin: 0;
+        padding:0;
+        font-family: sans-serif;
+        font-style: oblique;
+        font-weight: 100;
+        font-size: calc(3vw + 12px);
+        display:flex;
+        /*background: linear-gradient(360deg, rgba(200, 20, 0, 1), rgba(0,0,255,0) 80%);*/
+      }
+      p{
+
+        border-style: solid;
+        box-shadow: 10px 10px 30px black;
+        border-radius: 20px;
+        padding: calc(2.2vw + 20px);
+        margin-left: 20px;
+
+      }
+      #bigDoc{
+        text-align: inherit;
+
+      }
+      #asdf{
+        display:flex;
+        width: 2.2vw;
+        text-align: right;
+      }
+      #impulses{
+        display:flex;
+        width: 2.2vw;
+        margin-top: 250px;
+      }
+
+      #infoPanel {
+
+        display:flex;
+        border-style:solid;
+
+      }
+  </style>
+</head>
+<body>
+  <script type="text/javascript" src="buffer-loader.js"></script> <!-- -->
+  <script>
+    //Lucas White for Pioneer Works
+    //made using https://middleearmedia.com/web-audio-api-bufferloader/, thanks!
+
+
+
+
+    var context; //audio context
+    var bufferLoader;
+    var impulseResponse = "./assets/impulse1.wav"
+    //default impulse response for convolution reverb
+
+    function getImpulse() {
+            context = new AudioContext(); //initializes audio context
+            convolver = context.createConvolver();
+            console.log("convolver Started")
+            ajaxRequest = new XMLHttpRequest(); //requests sound from server
+            ajaxRequest.open('GET', impulseResponse, true);
+            console.log(impulseResponse)
+            ajaxRequest.responseType = 'arraybuffer';
+
+            ajaxRequest.onload = function() {
+              var impulseData = ajaxRequest.response;
+
+              context.decodeAudioData(impulseData, function(buffer) {
+                  myImpulseBuffer = buffer;
+                  convolver.buffer = myImpulseBuffer;
+                  convolver.loop = false;
+                  convolver.normalize = true;
+                  convolver.connect(context.destination);
+
+                },
+
+                function(e){"Error with decoding audio data" + e.err});
+            }
+
+            ajaxRequest.send();
+          }
+
+          getImpulse();
+
+    function loadAndPlayKick() {
+          bufferLoader = new BufferLoader(
+              context,
+              [
+              "./assets/kick.wav",
+              ],
+              finishedLoadingKick
+          );
+
+          bufferLoader.load();
+    }
+
+    function loadAndPlaySnare() {
+          bufferLoader = new BufferLoader(
+              context,
+              [
+              "./assets/snare.wav",
+              ],
+              finishedLoadingSnare
+          );
+
+          bufferLoader.load();
+    }
+
+    function loadAndPlayHat() {
+          bufferLoader = new BufferLoader(
+              context,
+              [
+              "./assets/hat.wav",
+              ],
+              finishedLoadingHat
+          );
+
+          bufferLoader.load();
+    }
+    function loadAndPlayClap() {
+          bufferLoader = new BufferLoader(
+              context,
+              [
+              "./assets/clap.wav",
+              ],
+              finishedLoadingClap
+          );
+
+          bufferLoader.load();
+    }
+    document.body.onkeydown = function() {keyCode(event)};
+          document.body.onkeyup = function() {keyUp(event)};
+
+          function keyUp(event) {
+            var x = event.keyCode;
+            if (x == 65) {
+              document.getElementById("a").style.boxShadow = "10px 10px 30px black";
+            }
+            if (x == 83) {
+              document.getElementById("s").style.boxShadow = "10px 10px 30px black";
+            }
+            if (x == 68) {
+              document.getElementById("d").style.boxShadow = "10px 10px 30px black";
+            }
+            if (x == 70) {
+              document.getElementById("f").style.boxShadow = "10px 10px 30px black";
+            }
+          }
+          function keyCode(event) {
+            var x = event.keyCode;
+            //console.log(x)
+            if (x == 65) {
+              loadAndPlayKick(); //trigger kick
+            }
+            if (x == 83) {
+              loadAndPlaySnare();
+            }
+            if (x == 68) {
+              loadAndPlayHat();
+            }
+            if (x == 70) {
+              loadAndPlayClap();
+            }
+          }
+          function finishedLoadingKick(bufferList) {
+            document.getElementById("a").style.boxShadow = "0px 0px 0px black"
+            var snd1 = context.createBufferSource();
+            snd1.buffer = bufferList[0];
+            snd1.connect(convolver);
+            snd1.start(0);
+
+          }
+
+          function finishedLoadingSnare(bufferList) {
+            document.getElementById("s").style.boxShadow = "0px 0px 0px black"
+            var snd2 = context.createBufferSource();
+            snd2.buffer = bufferList[0];
+            snd2.connect(convolver);
+            snd2.start(0);
+          }
+
+          function finishedLoadingHat(bufferList) {
+            document.getElementById("d").style.boxShadow = "0px 0px 0px black"
+            var snd3 = context.createBufferSource();
+            snd3.buffer = bufferList[0];
+            snd3.connect(convolver);
+            snd3.start(0);
+          }
+          function finishedLoadingClap(bufferList) {
+            document.getElementById("f").style.boxShadow = "0px 0px 0px black"
+            var snd4 = context.createBufferSource();
+            snd4.buffer = bufferList[0];
+            snd4.connect(convolver);
+            snd4.start(0);
+          }
+          function boom(){
+            impulseResponse="./assets/impulse1.wav";
+            getImpulse(); //changes impulse response
+          }
+          function echo(){
+            impulseResponse="./assets/impulse2.wav";
+            getImpulse();
+          }
+          function space(){
+            impulseResponse="./assets/impulse3.wav";
+            getImpulse();
+          }
+          function hall(){
+            impulseResponse="./assets/impulse4.wav";
+            getImpulse();
+          }
+  </script>
+  <div id="asdf">
+            <div><p id="a">a</p></div>
+            <div><p id="s">s</p></div>
+            <div><p id="d">d</p></div>
+            <div><p id="f">f</p></div>
+  </div>
+  <div id="impulses">
+            <button type="button" onclick="boom()">boom</button>
+            <button type="button" onclick="echo()">echo</button>
+            <button type="button" onclick="space()">space</button>
+            <button type="button" onclick="hall()">hall</button>
+  </div>
+
+</body>
+</html>

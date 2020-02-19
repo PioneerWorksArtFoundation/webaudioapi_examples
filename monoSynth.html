@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MonoSynth</title>
+	<script src="Tone.js"></script>
+	<style type="text/css">
+		.slidecontainer {
+		  width: 50%; /* Width of the outside container */
+		}
+
+		/* The slider itself */
+		.slider {
+		  -webkit-appearance: none;  /* Override default CSS styles */
+		  appearance: none;
+		  width: 100%; /* Full-width */
+		  height: 25px; /* Specified height */
+		  background: #d3d3d3; /* Grey background */
+		  outline: none; /* Remove outline */
+		  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+		  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+		  transition: opacity .2s;
+		}
+
+		/* Mouse-over effects */
+		.slider:hover {
+		  opacity: 1; /* Fully shown on mouse-over */
+		}
+
+		/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+		.slider::-webkit-slider-thumb {
+		  -webkit-appearance: none; /* Override default look */
+		  appearance: none;
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 25px; /* Slider handle height */
+		  background: #4CAF50; /* Green background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+
+		.slider::-moz-range-thumb {
+		  width: 25px; /* Set a specific slider handle width */
+		  height: 25px; /* Slider handle height */
+		  background: #4CAF50; /* Green background */
+		  cursor: pointer; /* Cursor on hover */
+		}
+	</style>
+</head>
+<body onclick="adsr()">
+	
+	<div class="slidecontainer">
+  		<input type="range" min="1" max="100" value="50" class="slider" id="attack">
+	</div>
+	<div class="slidecontainer">
+  		<input type="range" min="1" max="100" value="50" class="slider" id="decay">
+	</div>
+	<div class="slidecontainer">
+  		<input type="range" min="1" max="100" value="50" class="slider" id="sustain">
+	</div>
+	<div class="slidecontainer">
+  		<input type="range" min="1" max="100" value="50" class="slider" id="release">
+	</div>
+	<p id="log"></p>
+
+	<script>
+	const log = document.getElementById('log');
+	document.addEventListener('keypress', logKey);
+
+	var attack = document.getElementById("attack");
+	var decay = document.getElementById("decay"); 
+	var sustain = document.getElementById("sustain");
+	var release = document.getElementById("release");
+
+	var synth = new Tone.MonoSynth({
+			"oscillator" : {
+				"type" : "square",
+			},
+			"envelope" : {
+				"attack" : 0.5,
+				"decay" : 0.5,
+				"sustain" : 0.5,
+				"release" : 0.5
+			}
+		}).toMaster();
+
+	var note="C4"; //initialize a default key
+
+	function logKey(e){
+		//log.textContent += `${e.key}`;
+
+		//console.log(e);
+
+		if (e.key == "a"){
+			note = "C4";
+		}
+		if (e.key == "s"){
+			note = "D4";
+		}
+		if (e.key == "d"){
+			note = "E4";
+		}
+		if (e.key == "f"){
+			note = "F4";
+		}
+		if (e.key == "g"){
+			note = "G4";
+		}
+		if (e.key == "h"){
+			note = "A4";
+		}
+		if (e.key == "j"){
+			note = "B4";
+		}
+		if (e.key == "k"){
+			note = "C5";
+		}
+		if (e.key == "l"){
+			note = "D5";
+		}
+		
+		synth.triggerAttackRelease(note, "8n");
+	}
+
+	function adsr(){
+		synth = new Tone.MonoSynth({
+			"oscillator" : {
+				"type" : "square",
+			},
+			"envelope" : {
+				"attack" : attack.value/100,
+				"decay" : decay.value/100,
+				"sustain" : sustain.value/100,
+				"release" : release.value/100
+			}
+		}).toMaster();
+	}
+
+	</script>
+
+	<h1>MonoSynth - ADSR</h1>
+	
+</body>
+</html>

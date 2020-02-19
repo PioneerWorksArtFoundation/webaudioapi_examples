@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PolySynth</title>
+	<script src="Tone.js"></script>
+</head>
+
+<body>
+	<p id="log"></p>
+	<script>
+	const log = document.getElementById('log');
+	document.addEventListener('keypress', logKey);
+
+	var synth = new Tone.PolySynth(8, Tone.Synth, {
+			"oscillator" : {
+				"partials" : [0, 2, 3, 4],
+			}
+		}).toMaster();
+
+	var note="C4"; //initialize a default key
+
+	function logKey(e){
+		//log.textContent += `${e.key}`;
+
+		//console.log(e);
+
+		if (e.key == "a"){
+			note = "C4";
+		}
+		if (e.key == "s"){
+			note = "D4";
+		}
+		if (e.key == "d"){
+			note = "E4";
+		}
+		if (e.key == "f"){
+			note = "F4";
+		}
+		if (e.key == "g"){
+			note = "G4";
+		}
+		if (e.key == "h"){
+			note = "A4";
+		}
+		if (e.key == "j"){
+			note = "B4";
+		}
+		if (e.key == "k"){
+			note = "C5";
+		}
+		if (e.key == "l"){
+			note = "D5";
+		}
+
+		synth.triggerAttackRelease(note, "8n");
+
+	}
+
+	function sin(){
+		synth = new Tone.PolySynth(8, Tone.Synth, {
+			"oscillator" : {
+				"type" : "sine"
+			}
+		}).toMaster();
+	}
+	function sqr(){
+		synth = new Tone.PolySynth(8, Tone.Synth, {
+			"oscillator" : {
+				"type" : "square"
+			}
+		}).toMaster();
+	}
+	function tri(){
+		synth = new Tone.PolySynth(8, Tone.Synth, {
+			"oscillator" : {
+				"type" : "triangle"
+			}
+		}).toMaster();
+	}
+	function saw(){
+		synth = new Tone.PolySynth(8, Tone.Synth, {
+			"oscillator" : {
+				"type" : "sawtooth"
+			}
+		}).toMaster();
+	}
+
+	</script>
+	<h1>PolySynth</h1>
+	<button type="button" onclick="sin()">Sine</button>
+	<button type="button" onclick="sqr()">Square</button>
+	<button type="button" onclick="tri()">Triangle</button>
+	<button type="button" onclick="saw()">Sawtooth</button>
+</body>
+</html>
