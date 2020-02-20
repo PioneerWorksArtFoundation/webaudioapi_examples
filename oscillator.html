@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>oscillator</title>
+
+</head>
+<body>
+<h1>Simple Web Oscillator</h1>
+<label for="freq">Freq (between 40hz and 1000hz):</label>
+<input type="range" id="freq" name="freq" min="40" max="1000" value="440" onclick="oscFreq()">
+<p>Value: <span id="demo"></span></p>
+
+	<script type="text/javascript">
+	var started = false;
+
+	var slider = document.getElementById("freq");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+};
+var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+			// create Oscillator node
+			var oscillator = audioCtx.createOscillator();
+			oscillator.type = 'triangle';
+			oscillator.frequency.setValueAtTime(slider.value, audioCtx.currentTime); // value in hertz
+			oscillator.connect(audioCtx.destination);
+			
+
+function oscFreq(){
+	if(started == true){
+		oscillator.disconnect();
+		oscillator.stop();
+
+		audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+		oscillator = audioCtx.createOscillator();
+			oscillator.type = 'triangle';
+			oscillator.frequency.setValueAtTime(slider.value, audioCtx.currentTime); // value in hertz
+			oscillator.connect(audioCtx.destination);
+			
+	}else{
+		started=true;
+	}
+	
+	oscillator.start();
+	console.log("1");
+}
+
+
+/**function keyCode(event) {
+            var x = event.keyCode;
+            
+            if (x == 65) {
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+			// create Oscillator node
+			var oscillator = audioCtx.createOscillator();
+			var filter = audioCtx.createBiquadFilter();
+			oscillator.type = 'triangle';
+			oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // value in hertz
+			oscillator.connect(filter).connect(audioCtx.destination);
+			filter.type = "highpass";
+			filter.frequency.setTargetAtTime(500, audioCtx.currentTime,1);
+		              oscillator.start();
+		              console.log("1");
+
+}
+
+            }
+            if (x == 83) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator()
+              oscillator.frequency.setValueAtTime(586,audioCtx.currentTime);
+              oscillator.start();
+            }
+            if (x == 68) {
+            	oscillator.stop();
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator()
+              oscillator.frequency.setValueAtTime(660,audioCtx.currentTime);
+              oscillator.start();
+            }
+            if (x == 70) {
+            	oscillator.stop();
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator()
+              oscillator.frequency.setValueAtTime(880,audioCtx.currentTime);
+              oscillator.start();
+            }
+        };
+
+**/
+
+</script>
+
+
+</body>
+</html>
