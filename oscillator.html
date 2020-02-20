@@ -10,42 +10,40 @@
 <input type="range" id="freq" name="freq" min="40" max="1000" value="440" onclick="oscFreq()">
 <p>Value: <span id="demo"></span></p>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 	var started = false;
 
 	var slider = document.getElementById("freq");
-var output = document.getElementById("demo");
-output.innerHTML = slider.value;
+	var output = document.getElementById("demo");
+	output.innerHTML = slider.value;
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
-};
-var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+	slider.oninput = function() {
+  	   output.innerHTML = this.value;
+	};
+	var audioCtx = new (window.AudioContext || window.webkitAudioContext)(); //start audio context
 
-			// create Oscillator node
-			var oscillator = audioCtx.createOscillator();
+	// create Oscillator node
+	var oscillator = audioCtx.createOscillator();
+	oscillator.type = 'triangle';
+	oscillator.frequency.setValueAtTime(slider.value, audioCtx.currentTime); // frequency value from slider hertz
+	oscillator.connect(audioCtx.destination);
+			
+
+	function oscFreq(){ //changes frequency
+		if(started == true){ //runs after first time
+			oscillator.disconnect();
+			oscillator.stop();
+			audioCtx = new (window.AudioContext || window.webkitAudioContext)(); //reset audio context (you can't stop and start an oscillator using same context)
+			oscillator = audioCtx.createOscillator(); //reset oscillator
 			oscillator.type = 'triangle';
 			oscillator.frequency.setValueAtTime(slider.value, audioCtx.currentTime); // value in hertz
 			oscillator.connect(audioCtx.destination);
 			
-
-function oscFreq(){
-	if(started == true){
-		oscillator.disconnect();
-		oscillator.stop();
-
-		audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-		oscillator = audioCtx.createOscillator();
-			oscillator.type = 'triangle';
-			oscillator.frequency.setValueAtTime(slider.value, audioCtx.currentTime); // value in hertz
-			oscillator.connect(audioCtx.destination);
-			
-	}else{
-		started=true;
-	}
-	
-	oscillator.start();
-}
+		}else{ //runs first time
+			started=true;
+		}
+		oscillator.start();
+		}
 </script>
 
 
