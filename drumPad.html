@@ -10,7 +10,7 @@
         font-style: oblique;
         font-weight: 100;
         font-size: calc(3vw + 12px);
-        display:flex;
+        display:block;
         /*background: linear-gradient(360deg, rgba(200, 20, 0, 1), rgba(0,0,255,0) 80%);*/
       }
       p{
@@ -34,7 +34,8 @@
       #impulses{
         display:flex;
         width: 2.2vw;
-        margin-top: 250px;
+        margin-top: 0px;
+        margin-left: 20px;
       }
 
       #infoPanel {
@@ -43,6 +44,10 @@
         border-style:solid;
 
       }
+      #info{
+        display: block;
+        margin-left: 20px;
+      }
   </style>
 </head>
 <body>
@@ -50,6 +55,7 @@
   <script>
     //Lucas White for Pioneer Works
     //made using https://middleearmedia.com/web-audio-api-bufferloader/, thanks!
+    //uses impulse response WAV's from http://www.cksde.com/p_6_250.htm
 
 
 
