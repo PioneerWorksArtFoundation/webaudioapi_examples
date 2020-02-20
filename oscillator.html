@@ -45,54 +45,7 @@ function oscFreq(){
 	}
 	
 	oscillator.start();
-	console.log("1");
 }
-
-
-/**function keyCode(event) {
-            var x = event.keyCode;
-            
-            if (x == 65) {
-            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-			// create Oscillator node
-			var oscillator = audioCtx.createOscillator();
-			var filter = audioCtx.createBiquadFilter();
-			oscillator.type = 'triangle';
-			oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // value in hertz
-			oscillator.connect(filter).connect(audioCtx.destination);
-			filter.type = "highpass";
-			filter.frequency.setTargetAtTime(500, audioCtx.currentTime,1);
-		              oscillator.start();
-		              console.log("1");
-
-}
-
-            }
-            if (x == 83) {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            oscillator = audioCtx.createOscillator()
-              oscillator.frequency.setValueAtTime(586,audioCtx.currentTime);
-              oscillator.start();
-            }
-            if (x == 68) {
-            	oscillator.stop();
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            oscillator = audioCtx.createOscillator()
-              oscillator.frequency.setValueAtTime(660,audioCtx.currentTime);
-              oscillator.start();
-            }
-            if (x == 70) {
-            	oscillator.stop();
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            oscillator = audioCtx.createOscillator()
-              oscillator.frequency.setValueAtTime(880,audioCtx.currentTime);
-              oscillator.start();
-            }
-        };
-
-**/
-
 </script>
 
 
