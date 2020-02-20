@@ -1,7 +1,7 @@
 # webaudioapi_examples
 Examples and tutorials on how to use web audio api &amp; tone.js.
 
-Curated by Lucas White for Pioneer Works.
+Curated by Lucas White for Pioneer Works with help from Tommy Martinez.
 
 Utilizes [Middle Ear Media's Web Audio API Buffer Loader](https://middleearmedia.com/web-audio-api-bufferloader/) and [Tone.js](https://tonejs.github.io/)
 
